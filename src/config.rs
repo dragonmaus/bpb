@@ -71,8 +71,9 @@ struct SecretKey {
 
 impl SecretKey {
     fn secret(&self) -> Result<Cow<str>, Error> {
-        if let Some(key) = &self.key { Ok(Cow::Borrowed(key)) }
-        else if let Some(cmd) = &self.program {
+        if let Some(key) = &self.key {
+            Ok(Cow::Borrowed(key))
+        } else if let Some(cmd) = &self.program {
             let mut args = cmd.split_whitespace();
             let cmd = args.next().ok_or(failure::err_msg("Missing command"))?;
             let output = std::process::Command::new(cmd).args(args).output().unwrap();

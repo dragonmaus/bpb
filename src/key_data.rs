@@ -7,12 +7,17 @@ use crate::config::Config;
 
 pub struct KeyData {
     keypair: ed25519::Keypair,
-    user_id: String, timestamp: u64,
+    user_id: String,
+    timestamp: u64,
 }
 
 impl KeyData {
     pub fn create(keypair: ed25519::Keypair, user_id: String, timestamp: u64) -> KeyData {
-        KeyData { keypair, user_id, timestamp }
+        KeyData {
+            keypair,
+            user_id,
+            timestamp,
+        }
     }
 
     pub fn load(config: &Config) -> Result<KeyData, Error> {
@@ -20,11 +25,17 @@ impl KeyData {
             public: ed25519::PublicKey::from_bytes(&hex::decode(config.public())?)?,
             secret: ed25519::SecretKey::from_bytes(&hex::decode(&*config.secret()?)?)?,
         };
-        Ok(KeyData::create(keypair, config.user_id().to_owned(), config.timestamp()))
+        Ok(KeyData::create(
+            keypair,
+            config.user_id().to_owned(),
+            config.timestamp(),
+        ))
     }
 
     pub fn sign(&self, data: &[u8]) -> Result<pbp::PgpSig, Error> {
-        let timestamp = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH)?.as_secs();
+        let timestamp = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)?
+            .as_secs();
         Ok(pbp::PgpSig::from_dalek::<sha2::Sha256, sha2::Sha512>(
             &self.keypair,
             data,
