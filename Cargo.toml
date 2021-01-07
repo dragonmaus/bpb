@@ -1,5 +1,3 @@
-cargo-features = ["edition", "rename-dependency"]
-
 [package]
 name = "bpb"
 description = "boats's personal barricade"
