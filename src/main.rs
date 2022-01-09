@@ -1,19 +1,11 @@
-#[macro_use]
-extern crate failure;
-#[macro_use]
-extern crate serde_derive;
-
 mod config;
 mod key_data;
 mod tests;
 
-use std::time::SystemTime;
-
+use crate::{config::Config, key_data::KeyData};
 use ed25519_dalek as ed25519;
-use failure::Error;
-
-use crate::config::Config;
-use crate::key_data::KeyData;
+use failure::{bail, Error};
+use std::time::SystemTime;
 
 fn main() -> Result<(), Error> {
     let mut args = std::env::args().skip(1);

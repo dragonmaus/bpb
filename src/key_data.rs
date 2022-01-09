@@ -1,9 +1,7 @@
-use std::time::SystemTime;
-
+use crate::config::Config;
 use ed25519_dalek as ed25519;
 use failure::Error;
-
-use crate::config::Config;
+use std::time::SystemTime;
 
 pub struct KeyData {
     keypair: ed25519::Keypair,

@@ -1,9 +1,10 @@
-use std::borrow::Cow;
-use std::io::{Read, Write};
-
-use failure::Error;
-
 use crate::key_data::KeyData;
+use failure::{bail, Error};
+use serde_derive::{Deserialize, Serialize};
+use std::{
+    borrow::Cow,
+    io::{Read, Write},
+};
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
