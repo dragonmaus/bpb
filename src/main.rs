@@ -39,18 +39,18 @@ fn main() -> Result<(), Error> {
 }
 
 fn gpg_sign_arg(arg: &str) -> bool {
-    arg == "--sign" || (arg.starts_with("-") && !arg.starts_with("--") && arg.contains("s"))
+    arg == "--sign" || (arg.starts_with('-') && !arg.starts_with("--") && arg.contains('s'))
 }
 
 fn print_help_message() -> Result<(), Error> {
     println!("bpb: boats's personal barricade");
-    println!("");
+    println!();
     println!("This is a program for signing your git commits.");
-    println!("");
+    println!();
     println!("Arguments:");
     println!("    init <userid>:    (Re)initialize bpb, generate a new keypair.");
     println!("    print:            Print the current bpb public key, in OpenPGP format.");
-    println!("");
+    println!();
     println!("See https://github.com/withoutboats/bpb for more information.");
     Ok(())
 }

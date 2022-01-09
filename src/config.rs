@@ -75,7 +75,7 @@ impl SecretKey {
             Ok(Cow::Borrowed(key))
         } else if let Some(cmd) = &self.program {
             let mut args = cmd.split_whitespace();
-            let cmd = args.next().ok_or(failure::err_msg("Missing command"))?;
+            let cmd = args.next().ok_or_else(|| failure::err_msg("Missing command"))?;
             let output = std::process::Command::new(cmd).args(args).output().unwrap();
             Ok(Cow::Owned(String::from_utf8(output.stdout)?))
         } else {
