@@ -10,6 +10,7 @@ categories = ["authentication", "command-line-utilities"]
 publish = false
 
 [dependencies]
+dirs = "4"
 failure = "0.1"
 hex = "0.4"
 rand = "0.6"

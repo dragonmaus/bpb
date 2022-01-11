@@ -5,7 +5,11 @@ mod tests;
 use crate::{config::Config, key_data::KeyData};
 use ed25519_dalek as ed25519;
 use failure::{bail, Error};
-use std::time::SystemTime;
+use std::{
+    env,
+    path::{Path, PathBuf},
+    time::SystemTime,
+};
 
 fn main() -> Result<(), Error> {
     let mut args = std::env::args().skip(1);
@@ -52,7 +56,7 @@ fn generate_keypair(userid: String) -> Result<(), Error> {
     if std::fs::metadata(&keys_file).is_ok() {
         eprintln!(
             "A bpb_keys.toml already exists. If you want to reinitialize your state\n\
-             delete the file at `{}` first",
+             delete the file at {:?} first",
             keys_file
         );
         return Ok(());
@@ -106,7 +110,9 @@ fn delegate() -> ! {
     process::exit(status)
 }
 
-fn keys_file() -> String {
-    std::env::var("BPB_KEYS")
-        .unwrap_or_else(|_| format!("{}/.bpb_keys.toml", std::env::var("HOME").unwrap()))
+fn keys_file() -> PathBuf {
+    match env::var("BPB_KEYS") {
+        Err(_) => Path::new(&dirs::home_dir().unwrap()).join(".bpb_keys.toml"),
+        Ok(s) => Path::new(&s).to_path_buf(),
+    }
 }
